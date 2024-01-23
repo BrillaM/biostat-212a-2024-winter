@@ -97,20 +97,15 @@ a.
 ```{r, eval = F}
 library(tidyverse)
 flexibility <- seq(1, 10, length.out = 100)
-
 bias_squared <- (10 - flexibility)^2 / 100
 variance <- flexibility^2 / 100
 training_error <- bias_squared - (flexibility / 50) + 0.2
 irreducible_error <- rep(0.2, length(flexibility))
 test_error <- bias_squared + variance + irreducible_error
-
-
-data <- data.frame(flexibility, bias_squared, variance, training_error, test_error, irreducible_error)
-
-
+data <- data.frame(flexibility, bias_squared, variance, 
+                   training_error, test_error, irreducible_error)
 library(reshape2)
 data_melted <- melt(data, id.vars = 'flexibility')
-
 ggplot(data_melted, aes(x = flexibility, y = value, color = variable)) +
   geom_line() +
   labs(x = 'Flexibility', y = 'Error', title = 'Bias-Variance Decomposition') +
@@ -182,7 +177,8 @@ a.
 ```{r, evalue = F}
 library(tidyverse)
 
-Boston <- read_csv("https://raw.githubusercontent.com/ucla-biostat-212a/2024winter/master/slides/data/Boston.csv", col_select = -1) %>% 
+Boston <- read_csv("https://raw.githubusercontent.com/ucla-biostat-212a/2024winter/master/slides/data/Boston.csv", 
+                   col_select = -1) %>% 
   print(width = Inf)
 ```
 **answer**:
@@ -250,12 +246,10 @@ g.
 ```{r, evalue = F}
 selection <- Boston[order(Boston$medv),]
 selection[1,]
-
 summary(selection)
 ```
-**answer**: missing answer.
-Crime is very high compare to median and average rates of all Boston neighborhoods. No 
-
+**answer**: The lowest median value of owner- occupied homes is 5. 
+This census tract has several distinctive characteristics compare to overall range. The crime rate is very high at 38.3518, far exceeding the median range, this area has an usually high crime rate.The tract has no residential land zoned for large lots , is entirely industrial , and has an older housing stock , indicating it is a fully developed, non-residential area. The nox is very high because of the industrial pollution.The average number of rooms  is lower at 5.453, and the distance to employment centers is quite close at 1.4896. The accessibility to radial highways is the highest at 24, and the property-tax rate is very high at 666. The pupil-teacher ratio is also on the higher end at 20.2, and the proportion of African Americans  is near the maximum at 396.9. Lastly, the lower status of the population  is very high at 30.59, and the median value of owner-occupied homes  is very low at 5. These factors collectively suggest an urban, high-crime, industrial area with economic challenges.
 
 h.
 ```{r, evalue = F}
