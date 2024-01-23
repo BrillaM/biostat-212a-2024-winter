@@ -1,0 +1,266 @@
+---
+title: "Biostat 212a Homework 1"
+subtitle: "Due Jan 23, 2024 @ 11:59PM"
+author: "YOUR NAME and UID"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+engine: knitr
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    # fig.width: 6
+    # fig.height: 4
+    message: FALSE
+    cache: false
+---
+
+## Filling gaps in lecture notes (10pts)
+
+Consider the regression model
+$$
+Y = f(X) + \epsilon,
+$$
+where $\operatorname{E}(\epsilon) = 0$. 
+
+### Optimal regression function
+
+Show that the choice
+$$
+f_{\text{opt}}(X) = \operatorname{E}(Y | X)
+$$
+minimizes the mean squared prediction error
+$$
+\operatorname{E}\{[Y - f(X)]^2\},
+$$
+where the expectations averages over variations in both $X$ and $Y$. (Hint: condition on $X$.)
+
+**answer**:
+$$
+\operatorname{E}\{[Y - f(X)]^2|X=x\} \\
+=\operatorname{E}[Y^2|X=x] - 2f(X)\operatorname{E}[Y|X=x]+f(x)^2 \\
+$$
+taking derivative with respect to f(x) 
+$$
+-2\operatorname{E}[Y|X=x]+2f(x)=0 \\
+2f(x)=2\operatorname{E}[Y|X=x] \\
+f(x)=\operatorname{E}[Y|X=x]
+$$
+Therefore, we found E[Y|X=x] is the minimizes the MSE.
+
+
+### Bias-variance trade-off
+
+Given an estimate $\hat f$ of $f$, show that the test error at a $x_0$ can be decomposed as
+$$
+\operatorname{E}\{[y_0 - \hat f(x_0)]^2\} = \underbrace{\operatorname{Var}(\hat f(x_0)) + [\operatorname{Bias}(\hat f(x_0))]^2}_{\text{MSE of } \hat f(x_0) \text{ for estimating } f(x_0)} + \underbrace{\operatorname{Var}(\epsilon)}_{\text{irreducible}},
+$$
+where the expectation averages over the variability in $y_0$ and $\hat f$.
+
+**answer**:
+$$
+\operatorname{E}\{[y_0 - \hat f(x_0)]^2\} \\
+=\operatorname{E}\{[y_0 - f(x_0) + f(x_0) - \hat f(x_0)]^2\} \\
+=\operatorname{E}\{[y_0 - f(x_0)]^2\} + \operatorname{E}\{[f(x_0) - \hat f(x_0)]^2\} + 2\operatorname{E}\{[y_0 - f(x_0)][f(x_0) - \hat f(x_0)]\} \\
+$$
+Since  E[$\epsilon$] = 0 and Y0 = f(x0) + $\epsilon$ ,we have
+$$
+\operatorname{E}\{[y_0 - f(x_0)]^2\} \\
+=\operatorname{E}\{[f(x_0) + \epsilon - f(x_0)]^2\} \\
+=\operatorname{E}\{[\epsilon]^2\} - (\operatorname{E}[\epsilon])^2 +(E[\epsilon])^2 \\
+=\operatorname{Var}(\epsilon) \\
+$$
+Since Y0-f(x0) = $\epsilon$, E[$\epsilon$] = 0
+$$
+2(f(x_0) - \hat f(x_0))\operatorname{E}\{[y_0 - f(x_0)]\} \\
+=2(f(x_0) - \hat f(x_0))\operatorname{E}\{[\epsilon]\} \\
+=0\\
+\operatorname{E}\{[y_0 - \hat f(x_0)]^2\} \\
+=\operatorname{E}[(f(x_0) - \hat f(x_0))^2] + \operatorname{E}(\hat f(x_0))-\hat f(x_0)^2 \\
+=\operatorname{E}[f(x_0)-E[\hat f(x_0)]]^2 + E[\hat f(x_0)]-\hat f(x_0)]]^2 \\
+=Bias^2[\hat f(x_0)] + Var[\hat f(x_0)] 
+$$
+Combine all of them, we can got:
+$$
+\operatorname{E}\{[y_0 - \hat f(x_0)]^2\} = Var(\hat f(x_0)) + Bias^2(\hat f(x_0)) + Var(\epsilon)
+$$
+
+## ISL Exercise 2.4.3 (10pts)
+a.
+```{r, eval = F}
+library(tidyverse)
+flexibility <- seq(1, 10, length.out = 100)
+
+bias_squared <- (10 - flexibility)^2 / 100
+variance <- flexibility^2 / 100
+training_error <- bias_squared - (flexibility / 50) + 0.2
+irreducible_error <- rep(0.2, length(flexibility))
+test_error <- bias_squared + variance + irreducible_error
+
+
+data <- data.frame(flexibility, bias_squared, variance, training_error, test_error, irreducible_error)
+
+
+library(reshape2)
+data_melted <- melt(data, id.vars = 'flexibility')
+
+ggplot(data_melted, aes(x = flexibility, y = value, color = variable)) +
+  geom_line() +
+  labs(x = 'Flexibility', y = 'Error', title = 'Bias-Variance Decomposition') +
+  theme_minimal() +
+  scale_color_discrete(name = "Curves", labels = c("Squared Bias", "Variance", "Training Error", 
+                                                   "Test Error", "Bayes (Irreducible) Error"))
+```
+b.
+Test error decreases initially but rises as flexibility leads to overfitting.Test error decreases initially but rises as flexibility leads to overfitting.   Bias decreases, improving problem representation, while variance increases, especially at higher flexibility, reducing model robustness.   This highlights the challenge in balancing model complexity for optimal performance.
+
+
+## ISL Exercise 2.4.4 (10pts)
+a.
+1.
+Medical Diagnosis:
+Response: Diagnosis (e.g., disease present or not).
+Predictors: Patient symptoms, lab test results, demographic data (age, gender), medical history.
+Goal: The goal is primarily prediction. The emphasis is on accurately predicting whether a patient has a specific disease or condition based on their symptoms and test results. While inference can be valuable for understanding which factors are most predictive of certain diseases, the immediate utility is in the accurate and efficient prediction of the disease for treatment decisions.
+2.
+Credit Scoring in Finance:
+Response: Creditworthiness (e.g., high or low credit risk).
+Predictors: Credit history, current debts, income, employment status, past loan repayment history, credit score.
+Goal: This application leans towards prediction. Financial institutions use these models to predict the likelihood that an individual will repay a loan. Understanding the factors that influence credit risk is important, but the primary objective is to predict an individual's credit risk to make lending decisions.
+3.
+Customer Churn Prediction in Business:
+Response: Churn (e.g., whether a customer will stop using a company's products/services).
+Predictors: Customer interaction history, purchase history, customer service records, demographic data, usage patterns.
+Goal: Again, the goal is prediction. Companies use these models to predict which customers are at risk of leaving so that they can take proactive measures to retain them. While inference might help understand why customers churn, the direct aim is to predict churn to implement retention strategies.
+
+b.
+1.
+Real Estate Pricing:
+Response: House price.
+Predictors: Size (square footage), location, number of bedrooms, age of the house, proximity to amenities, etc.
+Goal: This application is primarily for prediction. The focus is on predicting the price of a house based on various features, which is crucial for buyers, sellers, and real estate agents.
+2.
+Weather Forecasting:
+Response: Temperature.
+Predictors: Humidity, atmospheric pressure, wind speed, historical temperature data, time of the year, etc.
+Goal: The goal is prediction. Accurate temperature forecasts based on current and historical weather data are vital for a range of activities, from agriculture to daily planning.
+3.
+Educational Outcomes:
+Response: Student academic performance (e.g., grades or test scores).
+Predictors: Study hours, attendance, parental education level, socioeconomic status, previous academic records, etc.
+Goal: This can be for both inference and prediction. While predicting student performance is valuable, understanding the impact of various factors (like study hours or socioeconomic status) on academic outcomes is also crucial for educational policy and interventions.
+
+c.
+1.
+Market Segmentation:
+Objective: To categorize customers into different segments based on their purchasing behavior, preferences, demographic characteristics, etc.
+Application: Companies can use cluster analysis to identify distinct groups within their customer base. This helps in tailoring marketing strategies, developing targeted products, and improving customer service by understanding the specific needs and preferences of each segment.
+2.
+Genomic Data Classification in Biology:
+Objective: To classify genetic data for identifying patterns and similarities in DNA sequences.
+Application: In biological research, cluster analysis is employed to group genes with similar expression patterns, which can be indicative of shared functions or regulatory mechanisms. This is crucial in understanding genetic diseases, evolutionary biology, and the development of targeted treatments.
+3.
+Document Classification:
+Objective: To organize and categorize large sets of digital documents based on their content and thematic similarities.
+Application: This is particularly useful in digital libraries, online research databases, and for information retrieval systems. By clustering documents, these systems can enhance search accuracy, improve the organization of information, and enable users to discover related content more effectively.
+
+## ISL Exercise 2.4.10 (30pts)
+
+Your can read in the `boston` data set directly from url <https://raw.githubusercontent.com/ucla-biostat-212a/2024winter/master/slides/data/Boston.csv>. A documentation of the `boston` data set is [here](https://www.rdocumentation.org/packages/ISLR2/versions/1.3-2/topics/Boston).
+
+
+a.
+#### R
+
+```{r, evalue = F}
+library(tidyverse)
+
+Boston <- read_csv("https://raw.githubusercontent.com/ucla-biostat-212a/2024winter/master/slides/data/Boston.csv", col_select = -1) %>% 
+  print(width = Inf)
+```
+**answer**:
+There is 506 rows and 13 columns in the data set. Each row represent the set of predictor obeservations for a given Neighborhood in Boston. Each column represent each predictor variable for which an observation was made in 506 neighborhoods of Boston.
+
+b.
+```{r, evalue = F}
+str(Boston)
+Boston$chas <- as.numeric(Boston$chas)
+Boston$rad <- as.numeric(Boston$rad)
+pairs(Boston)
+```
+
+**answer**:
+Not much can be discerned other than the fact that some variables appear to be correlated.
+
+c.
+```{r, evalue = F}
+cor(Boston)
+```
+**answer**:
+The variables that are most correlated with `medv` are `lstat` and `rm`. The variables that are most correlated with `lstat` are `rm` and `ptratio`. The variables that are most correlated with `rm` are `lstat` and `ptratio`.
+
+d.
+```{r, evalue = F}
+summary(Boston$crim)
+summary(Boston$tax)
+summary(Boston$ptratio)
+qplot(Boston$crim, binwidth=5 , xlab = "Crime rate", ylab="Number of Suburbs" )
+qplot(Boston$tax, binwidth=50 , xlab = "Full-value property-tax rate per $10,000", ylab="Number of Suburbs")
+qplot(Boston$ptratio, binwidth=5, xlab ="Pupil-teacher ratio by town", ylab="Number of Suburbs")
+selection <- subset( Boston, crim > 10)
+nrow(selection)/ nrow(Boston)
+selection <- subset( Boston, crim > 60)
+nrow(selection)/ nrow(Boston)
+selection <- subset( Boston, tax > 600)
+nrow(selection)/ nrow(Boston)
+selection <- subset( Boston, tax < 600)
+nrow(selection)/ nrow(Boston)
+selection <- subset( Boston, ptratio > 17.5)
+nrow(selection)/ nrow(Boston)
+selection <- subset( Boston, ptratio < 17.5)
+nrow(selection)/ nrow(Boston)
+```
+**answer**:
+For the crime rate, the median is 0.25%, and the maximum is 88.976%, there are some neighborhoods with very high crime rates. And 11% of the neighborhoods have crime rates above 10%, and 0.6% of the neighborhoods have crime rates above 60%.
+Based on the histogram, there are few place where the tax rate are very high. The median is 330, and the mean is 408.2,the maximum is 711. 27% of the neighborhoods have tax rates above 600. 73% of the neighborhoods have tax rates below 600.
+Based on the histogram of pupil-teacher ratio, the median is 19.05, and the mean is 18.5, the maximum is 22. . 72% of the neighborhoods have pupil-teacher ratio above 17.5, and 28% of the neighborhoods have pupil-teacher ratio below 17.5.
+
+e.
+```{r, evalue = F}
+nrow(subset(Boston, chas ==1)) 
+```
+**answer**:
+There are 35 census tracts that bound the Charles River.
+
+f.
+```{r, evalue = F}
+summary(Boston$ptratio)
+```
+**answer**:
+The median pupil-teacher ratio among the towns in this data set is 19.05.
+
+g.
+```{r, evalue = F}
+selection <- Boston[order(Boston$medv),]
+selection[1,]
+
+summary(selection)
+```
+## ISL Exercise 3.7.3 (12pts)
+
+## ISL Exercise 3.7.15 (20pts)
+
+## Bonus question (20pts)
+
+For multiple linear regression, show that $R^2$ is equal to the correlation between the response vector $\mathbf{y} = (y_1, \ldots, y_n)^T$ and the fitted values $\hat{\mathbf{y}} = (\hat y_1, \ldots, \hat y_n)^T$. That is
+$$
+R^2 = 1 - \frac{\text{RSS}}{\text{TSS}} = [\operatorname{Cor}(\mathbf{y}, \hat{\mathbf{y}})]^2.
+$$
+
