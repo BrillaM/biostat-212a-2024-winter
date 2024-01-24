@@ -265,7 +265,244 @@ There are 64 neighborhoods with more than 7 rooms, and 13 neighborhoods with mor
 
 ## ISL Exercise 3.7.3 (12pts)
 
+a.
+Salary=50+20*(GPA)+0.07⋅(IQ)+35⋅(Level)+0.01⋅(GPA×IQ)−10⋅(GPA×Level)
+
+i.Salary = 50 + 20 * GPA + 0.07 * IQ + 35 * College + 0.01 * GPA * IQ - 10 * GPA * College 
+We now can estimate that High school earn an average of 50 + 20 * mean(GPA) + 0.07 * mean(IQ) + 0.01 * mean(GPA) * mean(IQ) and College earn an average of 50 + 20 * mean(GPA) + 0.07 * mean(IQ) + 35 + 0.01 * mean(GPA) * mean(IQ) - 10 * mean(GPA). When you subtract out the common terms, you find out that College earn an average of 35 - 10 * mean(GPA) more than High School. Since we don't know the value of mean(GPA), we don't know whether High school are outearning College on average or not.
+
+ii.That's also uncertain.
+
+iii.Since College earn an average of 35 - 10 * mean(GPA) more than High School, a higher GPA means College earn less than High school. So this is true statement. 
+
+iv.Since College earn an average of 35 - 10 * mean(GPA) more than High School, a higher GPA means College earn less than High school. So this is false statement.
+
+**answer**: The answer is iii.
+
+b.
+We estimate that College earn an average of 50+20⋅(GPA)+0.07⋅(IQ)+35⋅(1)+0.01⋅(GPA×IQ)−10⋅(GPA×1).
+When we add IQ as 110 and GPA as 4.0.we will get 50+20⋅4.0+0.07⋅110+35⋅(1)+0.01⋅110×4.0−10⋅(4.0×1)
+= 137.1
+**answer**: The estimate salary of a college graduate with IQ of 110 and a GPA of 4.0 is $137100.
+
+c.
+**answer**: 
+False, the magnitude of the coefficient is not an indicator of statistical significance.
+
+
+
 ## ISL Exercise 3.7.15 (20pts)
+
+a.
+Model:Y(crim) = β0 + β1 (zn)X
+```{r, evalue = F}
+data = Boston
+boston.zn <- lm(crim ~ zn, data=Boston)
+ summary(boston.zn)
+ par(mfrow = c(2, 2))
+ plot(boston.zn)
+```
+we can see that F-statistic is 21.1 and p-value is < 5.506e-06,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and zn.
+
+Model:Y(crim) = β0 + β1 (indus)X
+```{r, evalue = F}
+boston.indus <- lm(crim ~ indus, data=Boston)
+ summary(boston.indus)
+ par(mfrow = c(2, 2))
+ plot(boston.indus)
+```
+we can see that F-statistic is 99.82 and p-value is < 2.2e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and indus.
+
+Model:Y(crim) = β0 + β1 (chas)X
+```{r, evalue = F}
+boston.chas <- lm(crim ~ chas, data=Boston)
+ summary(boston.chas)
+ par(mfrow = c(2, 2))
+ plot(boston.chas)
+```
+we can see that F-statistic is 1.579 and p-value is 0.2094. There is  not a statistically significant association between crim and chas.
+
+Model:Y(crim) = β0 + β1 (nox)X
+```{r, evalue = F}
+boston.nox <- lm(crim ~ nox, data=Boston)
+ summary(boston.nox)
+ par(mfrow = c(2, 2))
+ plot(boston.nox)
+```
+we can see that F-statistic is 108.6 and p-value is < 2.2e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and nox.
+
+Model:Y(crim) = β0 + β1 (rm)X
+```{r, evalue = F}
+boston.rm <- lm(crim ~ rm, data=Boston)
+ summary(boston.rm)
+ par(mfrow = c(2, 2))
+ plot(boston.rm)
+```
+we can see that F-statistic is 25.45 and p-value is 6.347e-07,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and rm.
+
+Model:Y(crim) = β0 + β1 (age)X
+```{r, evalue = F}
+boston.age <- lm(crim ~ age, data=Boston)
+ summary(boston.age)
+ par(mfrow = c(2, 2))
+ plot(boston.age)
+```
+we can see that F-statistic is 71.62 and p-value is 2.855e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and age.
+
+Model:Y(crim) = β0 + β1 (dis)X
+```{r, evalue = F}
+boston.dis <- lm(crim ~ dis, data=Boston)
+ summary(boston.dis)
+ par(mfrow = c(2, 2))
+ plot(boston.dis)
+```
+we can see that F-statistic is 84.89 and p-value is 2.2e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and dis.
+
+Model:Y(crim) = β0 + β1 (rad)X
+```{r, evalue = F}
+boston.rad <- lm(crim ~ rad, data=Boston)
+ summary(boston.rad)
+ par(mfrow = c(2, 2))
+ plot(boston.rad)
+```
+we can see that F-statistic is 323.9 and p-value < 2.2e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and red.
+
+Model:Y(crim) = β0 + β1 (tax)X
+```{r, evalue = F}
+boston.tax <- lm(crim ~ tax, data=Boston)
+ summary(boston.tax)
+ par(mfrow = c(2, 2))
+ plot(boston.tax)
+```
+we can see that F-statistic is 259.2 and p-value < 2.2e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and tax.
+
+Model:Y(crim) = β0 + β1 (ptratio)X
+```{r, evalue = F}
+boston.ptratio <- lm(crim ~ ptratio, data=Boston)
+ summary(boston.ptratio)
+ par(mfrow = c(2, 2))
+ plot(boston.ptratio)
+```
+we can see that F-statistic is 46.26 and p-value is 2.943e-11,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and ptratio.
+
+Model:Y(crim) = β0 + β1 (lstat)X
+```{r, evalue = F}
+boston.lstat <- lm(crim ~ lstat, data=Boston)
+ summary(boston.lstat)
+ par(mfrow = c(2, 2))
+ plot(boston.lstat)
+```
+we can see that F-statistic is 132 and p-value < 2.2e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and lstat.
+
+Model:Y(crim) = β0 + β1 (medv)X
+```{r, evalue = F}
+boston.medv <- lm(crim ~ medv, data=Boston)
+ summary(boston.medv)
+ par(mfrow = c(2, 2))
+ plot(boston.medv)
+```
+we can see that F-statistic is 89.49 and p-value < 2.2e-16,meaning the chance of having a null hypothesis (β0) is very low. There is a statistically significant association between crim and medv.
+
+b.
+```{r, evalue = F}
+lm.all <- lm(crim ~.,data = Boston)
+summary(lm.all)
+```
+**answer**: The predictors that appear to be statistically significant are zn, dis, rad, medv  have a significant association with crim (p-value is below 0.05) which means we can reject the null hypothesis.
+
+c.
+```{r, evalue = F}
+x = c(coefficients(boston.zn)[2],
+      coefficients(boston.indus)[2],
+      coefficients(boston.chas)[2],
+      coefficients(boston.nox)[2],
+      coefficients(boston.rm)[2],
+      coefficients(boston.age)[2],
+      coefficients(boston.dis)[2],
+      coefficients(boston.rad)[2],
+      coefficients(boston.tax)[2],
+      coefficients(boston.ptratio)[2],
+      coefficients(boston.lstat)[2],
+      coefficients(boston.medv)[2])
+y = coefficients(lm.all)[2:13]
+plot(x, y, col = "blue",pch =19, ylab = "multiple regression coefficients",
+     xlab = "Univariate Regression coefficients",
+     main = "Relationship between Multiple regression \n and univariate regression coefficients")
+```
+d.
+Model: crim=β0+β1(zn)+β2(zn)2+β3(zn)3+ϵ
+```{r, evalue = F}
+boston.poly.zn = lm(crim ~ zn + I(zn^2) + I(zn^3), data = Boston)
+summary(boston.poly.zn)
+```
+Model: crim=β0+β1(indus)+β2(indus)2+β3(indus)3+ϵ
+```{r, evalue = F}
+boston.poly.indus = lm(crim ~ indus + I(indus^2) + I(indus^3), data = Boston)
+summary(boston.poly.indus)
+```
+
+Model: crim=β0+β1(chas)+β2(chas)2+β3(chas)3+ϵ
+```{r, evalue = F}
+boston.poly.chas = lm(crim ~  + I(chas^2) + I(chas^3), data = Boston)
+summary(boston.poly.chas)
+```
+
+Model: crim=β0+β1(nox)+β2(nox)2+β3(nox)3+ϵ
+```{r, evalue = F}
+boston.poly.nox = lm(crim ~ nox + I(nox^2) + I(nox^3), data = Boston)
+summary(boston.poly.nox)
+```
+
+Model: crim=β0+β1(rm)+β2(rm)2+β3(rm)3+ϵ
+```{r, evalue = F}
+boston.poly.rm = lm(crim ~ rm + I(rm^2) + I(rm^3), data = Boston)
+summary(boston.poly.rm)
+```
+
+Model: crim=β0+β1(age)+β2(age)2+β3(age)3+ϵ
+```{r, evalue = F}
+boston.poly.age = lm(crim ~ age + I(age^2) + I(age^3), data = Boston)
+summary(boston.poly.age)
+```
+
+Model: crim=β0+β1(dis)+β2(dis)2+β3(dis)3+ϵ
+```{r, evalue = F}
+boston.poly.dis = lm(crim ~ dis + I(dis^2) + I(dis^3), data = Boston)
+summary(boston.poly.dis)
+```
+
+Model: crim=β0+β1(rad)+β2(rad)2+β3(rad)3+ϵ
+```{r, evalue = F}
+boston.poly.rad = lm(crim ~ rad + I(rad^2) + I(rad^3), data = Boston)
+summary(boston.poly.rad)
+```
+
+Model: crim=β0+β1(tax)+β2(tax)2+β3(tax)3+ϵ
+```{r, evalue = F}
+boston.poly.tax = lm(crim ~ tax + I(tax^2) + I(tax^3), data = Boston)
+summary(boston.poly.tax)
+```
+
+Model: crim=β0+β1(ptratio)+β2(ptratio)2+β3(ptratio)3+ϵ
+```{r, evalue = F}
+boston.poly.ptratio = lm(crim ~ ptratio + I(ptratio^2) + I(ptratio^3), data = Boston)
+summary(boston.poly.ptratio)
+```
+
+Model: crim=β0+β1(lstat)+β2(lstat)2+β3(lstat)3+ϵ
+```{r, evalue = F}
+boston.poly.lstat = lm(crim ~ lstat + I(lstat^2) + I(lstat^3), data = Boston)
+summary(boston.poly.lstat)
+```
+
+Model: crim=β0+β1(medv)+β2(medv)2+β3(medv)3+ϵ
+```{r, evalue = F}
+boston.poly.medv = lm(crim ~ medv + I(medv^2) + I(medv^3), data = Boston)
+summary(boston.poly.medv)
+```
+**answer** :Each of these variables [indus, nox, dis, ptratio, medv] squared and cubed terms are statistically significant (p-value is below 0.05) which means we can reject the null hypothesis. Age seems like have non-linear relationship with crim, but the squared and cubed terms are not statistically significant (p-value is above 0.05) which means we can not reject the null hypothesis. For other variable, there are no evidence to support the non-linear relationship between crim and other variables.
+
+
 
 ## Bonus question (20pts)
 
@@ -273,4 +510,43 @@ For multiple linear regression, show that $R^2$ is equal to the correlation betw
 $$
 R^2 = 1 - \frac{\text{RSS}}{\text{TSS}} = [\operatorname{Cor}(\mathbf{y}, \hat{\mathbf{y}})]^2.
 $$
-
+**answer** :
+Recall that 
+$$
+Cor(x,y) = \frac{\sum_{i}(x_i - \overline{x})(y_i - \overline{y})}
+{\sqrt{\sum_{i}(x_i - \overline{x})^2 \sum_{i}(y_i - \overline{y})^2}} 
+= \frac{(x - \frac{1}{n}J_n)^T(y - \frac{1}{n}J_n)}
+{\sqrt{(x - \frac{1}{n}J_n)^T(x - \frac{1}{n}J_n)(y - \frac{1}{n}J_n)^T(y - \frac{1}{n}J_n)}}
+$$
+where
+$$
+J = 11^T = 
+\begin{bmatrix}
+    1 & 1 & \dots & 1 \\
+    1 & 1 & \dots & 1 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    1 & 1 & \dots & 1
+\end{bmatrix}_{n \times n}
+$$
+And for R^2
+$$
+R^2 = 1 - \frac{RSS}{TSS} = 1 - \frac{\sum_{i}(y_i - \hat{y}_i)^2}{\sum_{i}(y_i - \bar{y})^2}
+$$
+And
+$$
+R^2 = 1 - \frac{\sum_{i}(y_i - \hat{y}_i)^2}{\sum_{i}(y_i - \bar{y})^2} = 1 - \frac{(Y - HY)^T(Y - HY)}{(Y - \frac{1}{n}J_nY)^T(Y - \frac{1}{n}J_nY)} = 1 - \frac{Y^T(I - H)^T(I - H)Y}{Y^T(I - \frac{1}{n}J_n)^T(I - \frac{1}{n}J_n)Y}
+$$
+Therefore,
+$$
+R^2 = 1 - \frac{Y^T(I - H)Y}{Y^T(I - \frac{1}{n}J)Y}
+$$
+where H = X(X^TX)^{-1}X^T is a projection matrix and so as I - H.
+Now we have
+$$
+Cor(Y, \hat{Y})^2 = \frac{(Y - \frac{1}{n}JY)^T(\hat{Y} - \frac{1}{n}J\hat{Y})}
+{[(Y - \frac{1}{n}JY)^T(Y - \frac{1}{n}JY)][(\hat{Y} - \frac{1}{n}J\hat{Y})^T(\hat{Y} - \frac{1}{n}J\hat{Y})]}
+$$
+where
+$$
+\hat{Y} = X\beta = X(X^TX)^{-1}X^TY = HY
+$$
