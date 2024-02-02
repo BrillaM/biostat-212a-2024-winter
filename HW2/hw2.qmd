@@ -1,8 +1,7 @@
-```         
 ---
 title: "Biostat 212a Homework 2"
 subtitle: "Due Feb 6, 2024 @ 11:59PM"
-author: "YOUR NAME and UID"
+author: "Brilla Meng UID: 806329681"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 format:
   html:
@@ -25,13 +24,117 @@ knitr:
 
 ## ISL Exercise 4.8.1 (10pts)
 
+**answer**:
+Since equation 4.2 is 
+$$
+p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}}
+$$
+I substrat one minus both parts, then I get 
+$$
+1 - p(X) = 1 - \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}} = \frac{1}{1 + e^{\beta_0 + \beta_1 X}},
+$$
+and
+$$
+\frac{1}{1 - p(X)} = 1 + e^{\beta_0 + \beta_1 X}
+$$
+Therefore:
+$$
+\frac{p(X)}{1 - p(X)} = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}}(1 + e^{\beta_0 + \beta_1 X}),
+$$
+And equation 4.3 is 
+$$
+
+\frac{p(X)}{1 - p(X)} = e^{\beta_0 + \beta_1 X}
+
+$$
+
+
+
 ## ISL Exercise 4.8.6 (10pts)
 
+a.
+**answer**:
+Just put the number into the equation, we get
+```{r}
+p <- function(x1,x2){ z <- exp(-6 + 0.05*x1 + 1*x2); return( round(z/(1+z),3))}
+p(40,3.5)
+```
+The probability that a student who studies for 40h and has an undergrad GPA of 3.5 gets an A in the class is 0.378.
+
+b.
+**answer**:
+```{r}
+hours <- seq(40,60,1)
+probs <- mapply(hours, 3.5, FUN=p)
+names(probs) <- paste0(hours,"h")
+probs
+```
+To  have a 50% chance of getting an A in the class,he need to study at least 50h.
+
 ## ISL Exercise 4.8.9 (10pts)
+a.
+**answer**:
+
+$$
+ \frac{p(x)}{1 -p(x)}=0.37
+$$
+we can transfer to 
+$$
+p(X) = \frac{0.37}{1 + 0.37} = 0.27
+$$
+we have on average a fraction of 27% of people defaulting on their credit card payment.
+
+b.
+**answer**:
+we add 16% to this equation we can get,
+$$
+ \frac{p(x)}{1 -p(x)}= \frac{0.16}{1 + 0.16} = 0.19
+$$
+She has on average a fraction of 19% of people defaulting on their credit card payment.
 
 ## ISL Exercise 4.8.13 (a)-(i) (50pts)
+a.
+```{r}
+library(ISLR)
+library(corrplot)
+summary(Weekly)
+corrplot(cor(Weekly[,-9]), method="square")
+```
+**answer**:
+The only variable that appears to be correlated with `Year` is `Volume`. The correlational plot doesn’t illustrate that any other variables are linearly related.
+
+b.
+```{r}
+attach(Weekly)
+Weekly.fit<-glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume, data=Weekly,family=binomial)
+summary(Weekly.fit)
+```
+**answer**:
+The only variable that was statistically significant at the level of significance α =0.05 is Lag2. Otherwise the other variables fail to reject the null hypothesis; β = 0.
+c.
+**answer**:   
+```{r}
+logWeekly.prob= predict(Weekly.fit, type='response')
+logWeekly.pred= rep("Down", length(logWeekly.prob))
+logWeekly.pred[logWeekly.prob > 0.5] = "Up"
+table(logWeekly.pred, Direction)
+```
+And we can get the formula, which is 
+(54+557)/(54+48+430+557) = 0.561
+
+d.
+**answer**:
+e.
+**answer**:
+f.
+**answer**:
+g.
+**answer**:
+h.
+**answer**:
+i.
 
 ## Bonus question: ISL Exercise 4.8.13 Part (j) (30pts)
 
 ## Bonus question: ISL Exercise 4.8.4 (30pts)
-```
+
