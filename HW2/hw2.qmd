@@ -98,6 +98,7 @@ a.
 library(ISLR)
 library(corrplot)
 summary(Weekly)
+pairs(Weekly)
 corrplot(cor(Weekly[,-9]), method="square")
 ```
 **answer**:
@@ -108,33 +109,172 @@ b.
 attach(Weekly)
 Weekly.fit<-glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume, data=Weekly,family=binomial)
 summary(Weekly.fit)
+
 ```
 **answer**:
-The only variable that was statistically significant at the level of significance α =0.05 is Lag2. Otherwise the other variables fail to reject the null hypothesis; β = 0.
+Based on these results, Lag2 is the only variable that significantly impacts the Direction that the market goes on a given week. The coefficient of Lag2 is .05844, meaning that if the stock market went up two weeks ago it is more likely to go up this week.
+
 c.
-**answer**:   
+**answer**:
 ```{r}
 logWeekly.prob= predict(Weekly.fit, type='response')
-logWeekly.pred= rep("Down", length(logWeekly.prob))
+logWeekly.pred =rep("Down", length(logWeekly.prob))
 logWeekly.pred[logWeekly.prob > 0.5] = "Up"
 table(logWeekly.pred, Direction)
 ```
 And we can get the formula, which is 
 (54+557)/(54+48+430+557) = 0.561
+The model accurately predicted the movement of the market 56.1% of the time.This shows how the model predicts both Up and Down trend correctly.While the model correctly predicted the up trends, 557/(48+557)=0.92, it only correctly predicted the down trends 54/(54+430)=0.11.
 
 d.
+```{r}
+train = (Year<2009)
+Weekly.0910 <-Weekly[!train,]
+Weekly.fit<-glm(Direction~Lag2, data=Weekly,family=binomial, subset=train)
+logWeekly.prob= predict(Weekly.fit, Weekly.0910, type = "response")
+logWeekly.pred = rep("Down", length(logWeekly.prob))
+logWeekly.pred[logWeekly.prob > 0.5] = "Up"
+Direction.0910 = Direction[!train]
+table(logWeekly.pred, Direction.0910)
+```
+```{r}
+mean(logWeekly.pred == Direction.0910)
+```
 **answer**:
+When spliting up the whole Weekly dataset into a training and test dataset, the model correctly predicted weekly trends at rate of 62.5%, which is a moderate improvement from the model that utilized the whole dataset. Also this model such as the previous one did better at predicting upward trends(91.80%) compared to downward trends(20.93%); although this model was able to improve significantly on correctly predicting downward trends.
+
 e.
-**answer**:
+```{r}
+library("MASS")
+Weeklylda.fit<-lda(Direction~Lag2, data=Weekly,family=binomial, subset=train)
+Weeklylda.pred<-predict(Weeklylda.fit, Weekly.0910)
+table(Weeklylda.pred$class, Direction.0910)
+```
+```{r}
+mean(Weeklylda.pred$class==Direction.0910)
+```
+**answer**:Using Linear Discriminant Analysis to develop a classifying model yielded similar results as the logistic regression model created in part D
+
 f.
+```{r}
+Weeklyqda.fit = qda(Direction ~ Lag2, data = Weekly, subset = train)
+Weeklyqda.pred = predict(Weeklyqda.fit, Weekly.0910)$class
+table(Weeklyqda.pred, Direction.0910)
+```
+```{r}
+mean(Weeklyqda.pred==Direction.0910)
+```
 **answer**:
+Quadratic Linear Analysis created a model with an accuracy of 58.65%, which is lower than the previous methods. Also this model only considered predicting the correctness of weekly upward trends disregrading the downward weekly trends.
+
 g.
+```{r}
+library(class)
+Week.train=as.matrix(Lag2[train])
+Week.test=as.matrix(Lag2[!train])
+train.Direction =Direction[train]
+set.seed(1)
+Weekknn.pred=knn(Week.train,Week.test,train.Direction,k=1)
+table(Weekknn.pred,Direction.0910)
+```
+```{r}
+mean(Weekknn.pred == Direction.0910)
+```
+
 **answer**:
+The K-Nearest neighbors resulted in a classifying model with an accuracy rate of 50% which is equal to random chance.
+
 h.
-**answer**:
+```{r}
+library(e1071)
+WeeklyBayes.fit = naiveBayes(Direction ~ Lag2, data = Weekly, subset = train)
+WeeklyBayes.pred = predict(WeeklyBayes.fit, Weekly.0910)
+table(WeeklyBayes.pred, Direction.0910)
+```
+
+```{r}
+mean(WeeklyBayes.pred==Direction.0910)
+```
+**answer**:The Naive Bayes model resulted in a classifying model with an accuracy rate of 58.65%, which is lower than the previous methods. Also this model only considered predicting the correctness of weekly upward trends disregrading the downward weekly trends.
+
 i.
+**answer**:
+The methods that have the highest accuracy rates are the Logistic Regression and Linear Discriminant Analysis; both having rates of 62.5%.
+
 
 ## Bonus question: ISL Exercise 4.8.13 Part (j) (30pts)
+```{r}
+Weekly.fit<-glm(Direction~Lag2:Lag4+Lag2, data=Weekly,family=binomial, subset=train)
+logWeekly.prob= predict(Weekly.fit, Weekly.0910, type = "response")
+logWeekly.pred = rep("Down", length(logWeekly.prob))
+logWeekly.pred[logWeekly.prob > 0.5] = "Up"
+Direction.0910 = Direction[!train]
+table(logWeekly.pred, Direction.0910)
+```
+```{r}
+mean(logWeekly.pred == Direction.0910)
+```
+```{r}
+Weeklylda.fit<-lda(Direction~Lag2:Lag4+Lag2, data=Weekly,family=binomial, subset=train)
+Weeklylda.pred<-predict(Weeklylda.fit, Weekly.0910)
+table(Weeklylda.pred$class, Direction.0910)
+```
+```{r}
+mean(Weeklylda.pred$class==Direction.0910)
+```
+```{r}
+Weeklyqda.fit = qda(Direction ~ poly(Lag2,2), data = Weekly, subset = train)
+Weeklyqda.pred = predict(Weeklyqda.fit, Weekly.0910)$class
+table(Weeklyqda.pred, Direction.0910)
+```
+```{r}
+mean(Weeklyqda.pred==Direction.0910)
+```
+```{r}
+Week.train=as.matrix(Lag2[train])
+Week.test=as.matrix(Lag2[!train])
+train.Direction =Direction[train]
+set.seed(1)
+Weekknn.pred=knn(Week.train,Week.test,train.Direction,k=10)
+table(Weekknn.pred,Direction.0910)
+```
+```{r}
+mean(Weekknn.pred == Direction.0910)
+```
+```{r}
+Week.train=as.matrix(Lag2[train])
+Week.test=as.matrix(Lag2[!train])
+train.Direction =Direction[train]
+set.seed(1)
+Weekknn.pred=knn(Week.train,Week.test,train.Direction,k=100)
+table(Weekknn.pred,Direction.0910)
+```
+```{r}
+mean(Weekknn.pred == Direction.0910)
+```
+**answer**:
+After different transformations of different methods, the original Logistic regression model and LDA model have the best accuracy. Although we squared Lag2 and then used the QDA method to get the same precision model as the original Logistic regression and LDA models. This makes sense because this is similar to the linear discriminant analysis of the original model.
 
 ## Bonus question: ISL Exercise 4.8.4 (30pts)
+a.
+If x∈[0.05,0.95], then the observations we will use are in interval of [x-0.05,x+0.05]  represents a length of 0.1 which represents a fraction of 10%. If x <0.05, then we use observation of [0,x+0.05] which represents a fraction of (100x+5)%. if x>0.95, the fraction of observation will be (105-100x)%
+$$
+\int_{0.05}^{0.95} 10dx + \int_{0}^{0.05} (100x + 5)dx + \int_{0.95}^{1} (105 - 100x)dx = 9 + 0.375 + 0.375 = 9.75.
+$$
+**answer**:We can conclude on average, the fraction of the observations that will be used is 9.75%.
 
+b.
+**answer**: If we assume X1 and X2 to be independent, then the fraction of observations will be 9.75%*9.75% = 0.95%
+
+c.
+**answer**: With the same agreement from (a) and (b), we can conclude that the fraction of observations will be 9.75%^100, which is almost 0%.
+
+d.
+**answer**: The fraction of observations that will be used is 9.75%^p, when p is ∞, 
+we will get 0.
+$$
+\lim_{{p \to \infty}} (9.75\%)^p = 0.
+$$
+
+e.
+**answer**: For p=1, we have l=0.1, for p=2, we have l=0.1^1/2 and for p=100, we have l=0.1^1/100.
