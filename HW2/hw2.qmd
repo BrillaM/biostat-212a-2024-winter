@@ -55,11 +55,20 @@ $$
 a.
 **answer**:
 Just put the number into the equation, we get
-```{r}
-p <- function(x1,x2){ z <- exp(-6 + 0.05*x1 + 1*x2); return( round(z/(1+z),3))}
-p(40,3.5)
-```
-The probability that a student who studies for 40h and has an undergrad GPA of 3.5 gets an A in the class is 0.378.
+$$
+P(Y = 1|X_1, X_2) = \frac{1}{1 + e^{-(\beta_0+\beta_1X_1+\beta_2X_2)}}
+\\\hat{\beta}_0 = -6, \quad \hat{\beta}_1 = 0.05, \quad \hat{\beta}_2 = 1
+\\P(Y = 1|X_1 = 40, X_2 = 3.5) 
+= \frac{1}{1 + e^{-(\hat{\beta}_0+\hat{\beta}_1 \cdot 40+\hat{\beta}_2 \cdot 3.5)}}
+\\= \frac{1}{1 + e^{-(6+0.05 \cdot 40+1 \cdot 3.5)}}
+\\= \frac{1}{1 + e^{-(6+2+3.5)}}
+\\= \frac{1}{1 + e^{-(-0.5)}}
+\\= \frac{1}{1 + e^{0.5}}
+\\= \frac{1}{1 + 1.6487}
+\\= \frac{1}{2.6487}
+\\= 0.3775
+$$
+The probability that a student who studies for 40h and has an undergrad GPA of 3.5 gets an A in the class is 0.3775.
 
 b.
 **answer**:
@@ -69,6 +78,16 @@ probs <- mapply(hours, 3.5, FUN=p)
 names(probs) <- paste0(hours,"h")
 probs
 ```
+
+$$
+\text{logit}(P(Y = 1|X_1, X_2)) = \hat{\beta}_0 + \hat{\beta}_1X_1 + \hat{\beta}_2X_2
+\\\text{logit}(0.5) = -6 + 0.05 \cdot X_1 + 1 \cdot 3.5
+\\\log\left(\frac{0.5}{1 - 0.5}\right) = -6 + 0.05 \cdot X_1 + 3.5
+\\\log(1) = -6 + 0.05 \cdot X_1 + 3.5
+\\0 = -6 + 0.05X_1 + 3.5
+\\X_1 = \frac{2.5}{0.05}
+X_1 = 50
+$$
 To  have a 50% chance of getting an A in the class,he need to study at least 50h.
 
 ## ISL Exercise 4.8.9 (10pts)
