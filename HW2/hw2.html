@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Brilla Meng UID: 806329681">
-<meta name="dcterms.date" content="2024-02-04">
+<meta name="dcterms.date" content="2024-02-06">
 
 <title>Biostat 212a Homework 2</title>
 <style>
@@ -3249,7 +3249,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 4, 2024</p>
+      <p class="date">February 6, 2024</p>
     </div>
   </div>
   
@@ -3271,39 +3271,40 @@ p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}}
 \frac{1}{1 - p(X)} = 1 + e^{\beta_0 + \beta_1 X}
 \]</span> Therefore: <span class="math display">\[
 \frac{p(X)}{1 - p(X)} = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}}(1 + e^{\beta_0 + \beta_1 X}),
-\]</span> And equation 4.3 is $$</p>
-<p> = e^{_0 + _1 X}</p>
-<p>$$</p>
+\]</span> And equation 4.3 is <span class="math display">\[
+\frac{p(X)}{1 - p(X)} = e^{\beta_0 + \beta_1 X}
+\]</span></p>
 </section>
 <section id="isl-exercise-4.8.6-10pts" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="isl-exercise-4.8.6-10pts"><span class="header-section-number">2</span> ISL Exercise 4.8.6 (10pts)</h2>
 <ol type="a">
-<li><strong>answer</strong>: Just put the number into the equation, we get</li>
+<li><p><strong>answer</strong>: Just put the number into the equation, we get <span class="math display">\[
+\begin{align*}
+P(Y = 1|X_1, X_2) = \frac{1}{1 + e^{-(\beta_0+\beta_1X_1+\beta_2X_2)}}
+\\\hat{\beta}_0 = -6, \quad \hat{\beta}_1 = 0.05, \quad \hat{\beta}_2 = 1
+\\P(Y = 1|X_1 = 40, X_2 = 3.5)
+= \frac{1}{1 + e^{-(\hat{\beta}_0+\hat{\beta}_1 \cdot 40+\hat{\beta}_2 \cdot 3.5)}}
+\\= \frac{1}{1 + e^{-(6+0.05 \cdot 40+1 \cdot 3.5)}}
+\\= \frac{1}{1 + e^{-(6+2+3.5)}}
+\\= \frac{1}{1 + e^{-(-0.5)}}
+\\= \frac{1}{1 + e^{0.5}}
+\\= \frac{1}{1 + 1.6487}
+\\= \frac{1}{2.6487}
+\\= 0.3775
+\end{align*}
+\]</span> The probability that a student who studies for 40h and has an undergrad GPA of 3.5 gets an A in the class is 0.3775.</p></li>
+<li><p><strong>answer</strong>: <span class="math display">\[
+\begin{align*}
+\text{logit}(P(Y = 1|X_1, X_2)) = \hat{\beta}_0 + \hat{\beta}_1X_1 + \hat{\beta}_2X_2 \\
+\text{logit}(0.5) = -6 + 0.05 \cdot X_1 + 1 \cdot 3.5 \\
+\log\left(\frac{0.5}{1 - 0.5}\right) = -6 + 0.05 \cdot X_1 + 3.5 \\
+\log(1) = -6 + 0.05 \cdot X_1 + 3.5 \\
+0 = -6 + 0.05X_1 + 3.5 \\
+X_1 = \frac{2.5}{0.05} \\
+X_1 = 50
+\end{align*}
+\]</span> To have a 50% chance of getting an A in the class,he need to study at least 50h.</p></li>
 </ol>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="cf">function</span>(x1,x2){ z <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">6</span> <span class="sc">+</span> <span class="fl">0.05</span><span class="sc">*</span>x1 <span class="sc">+</span> <span class="dv">1</span><span class="sc">*</span>x2); <span class="fu">return</span>( <span class="fu">round</span>(z<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>z),<span class="dv">3</span>))}</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p</span>(<span class="dv">40</span>,<span class="fl">3.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.378</code></pre>
-</div>
-</div>
-<p>The probability that a student who studies for 40h and has an undergrad GPA of 3.5 gets an A in the class is 0.378.</p>
-<ol start="2" type="a">
-<li><strong>answer</strong>:</li>
-</ol>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">60</span>,<span class="dv">1</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">mapply</span>(hours, <span class="fl">3.5</span>, <span class="at">FUN=</span>p)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(probs) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(hours,<span class="st">&quot;h&quot;</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>probs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  40h   41h   42h   43h   44h   45h   46h   47h   48h   49h   50h   51h   52h 
-0.378 0.389 0.401 0.413 0.426 0.438 0.450 0.463 0.475 0.488 0.500 0.512 0.525 
-  53h   54h   55h   56h   57h   58h   59h   60h 
-0.537 0.550 0.562 0.574 0.587 0.599 0.611 0.622 </code></pre>
-</div>
-</div>
-<p>To have a 50% chance of getting an A in the class,he need to study at least 50h.</p>
 </section>
 <section id="isl-exercise-4.8.9-10pts" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="isl-exercise-4.8.9-10pts"><span class="header-section-number">3</span> ISL Exercise 4.8.9 (10pts)</h2>
@@ -3327,9 +3328,9 @@ p(X) = \frac{0.37}{1 + 0.37} = 0.27
 <li></li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Weekly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Weekly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Year           Lag1               Lag2               Lag3         
  Min.   :1990   Min.   :-18.1950   Min.   :-18.1950   Min.   :-18.1950  
@@ -3353,7 +3354,7 @@ p(X) = \frac{0.37}{1 + 0.37} = 0.27
            
            </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(Weekly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(Weekly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -3361,7 +3362,7 @@ p(X) = \frac{0.37}{1 + 0.37} = 0.27
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(Weekly[,<span class="sc">-</span><span class="dv">9</span>]), <span class="at">method=</span><span class="st">&quot;square&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(Weekly[,<span class="sc">-</span><span class="dv">9</span>]), <span class="at">method=</span><span class="st">&quot;square&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -3375,9 +3376,9 @@ p(X) = \frac{0.37}{1 + 0.37} = 0.27
 <li></li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(Weekly)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Weekly.fit<span class="ot">&lt;-</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag1<span class="sc">+</span>Lag2<span class="sc">+</span>Lag3<span class="sc">+</span>Lag4<span class="sc">+</span>Lag5<span class="sc">+</span>Volume, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Weekly.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(Weekly)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Weekly.fit<span class="ot">&lt;-</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag1<span class="sc">+</span>Lag2<span class="sc">+</span>Lag3<span class="sc">+</span>Lag4<span class="sc">+</span>Lag5<span class="sc">+</span>Volume, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Weekly.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -3410,10 +3411,10 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <li><strong>answer</strong>:</li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>logWeekly.prob<span class="ot">=</span> <span class="fu">predict</span>(Weekly.fit, <span class="at">type=</span><span class="st">&#39;response&#39;</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>logWeekly.pred <span class="ot">=</span><span class="fu">rep</span>(<span class="st">&quot;Down&quot;</span>, <span class="fu">length</span>(logWeekly.prob))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>logWeekly.pred[logWeekly.prob <span class="sc">&gt;</span> <span class="fl">0.5</span>] <span class="ot">=</span> <span class="st">&quot;Up&quot;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(logWeekly.pred, Direction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>logWeekly.prob<span class="ot">=</span> <span class="fu">predict</span>(Weekly.fit, <span class="at">type=</span><span class="st">&#39;response&#39;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>logWeekly.pred <span class="ot">=</span><span class="fu">rep</span>(<span class="st">&quot;Down&quot;</span>, <span class="fu">length</span>(logWeekly.prob))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>logWeekly.pred[logWeekly.prob <span class="sc">&gt;</span> <span class="fl">0.5</span>] <span class="ot">=</span> <span class="st">&quot;Up&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(logWeekly.pred, Direction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Direction
 logWeekly.pred Down  Up
@@ -3426,14 +3427,14 @@ logWeekly.pred Down  Up
 <li></li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">=</span> (Year<span class="sc">&lt;</span><span class="dv">2009</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Weekly<span class="fl">.0910</span> <span class="ot">&lt;-</span>Weekly[<span class="sc">!</span>train,]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>Weekly.fit<span class="ot">&lt;-</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>logWeekly.prob<span class="ot">=</span> <span class="fu">predict</span>(Weekly.fit, Weekly<span class="fl">.0910</span>, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>logWeekly.pred <span class="ot">=</span> <span class="fu">rep</span>(<span class="st">&quot;Down&quot;</span>, <span class="fu">length</span>(logWeekly.prob))</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>logWeekly.pred[logWeekly.prob <span class="sc">&gt;</span> <span class="fl">0.5</span>] <span class="ot">=</span> <span class="st">&quot;Up&quot;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>Direction<span class="fl">.0910</span> <span class="ot">=</span> Direction[<span class="sc">!</span>train]</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(logWeekly.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">=</span> (Year<span class="sc">&lt;</span><span class="dv">2009</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Weekly<span class="fl">.0910</span> <span class="ot">&lt;-</span>Weekly[<span class="sc">!</span>train,]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Weekly.fit<span class="ot">&lt;-</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>logWeekly.prob<span class="ot">=</span> <span class="fu">predict</span>(Weekly.fit, Weekly<span class="fl">.0910</span>, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>logWeekly.pred <span class="ot">=</span> <span class="fu">rep</span>(<span class="st">&quot;Down&quot;</span>, <span class="fu">length</span>(logWeekly.prob))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>logWeekly.pred[logWeekly.prob <span class="sc">&gt;</span> <span class="fl">0.5</span>] <span class="ot">=</span> <span class="st">&quot;Up&quot;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Direction<span class="fl">.0910</span> <span class="ot">=</span> Direction[<span class="sc">!</span>train]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(logWeekly.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Direction.0910
 logWeekly.pred Down Up
@@ -3442,7 +3443,7 @@ logWeekly.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(logWeekly.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(logWeekly.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.625</code></pre>
 </div>
@@ -3452,10 +3453,10 @@ logWeekly.pred Down Up
 <li></li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;MASS&quot;</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Weeklylda.fit<span class="ot">&lt;-</span><span class="fu">lda</span>(Direction<span class="sc">~</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>Weeklylda.pred<span class="ot">&lt;-</span><span class="fu">predict</span>(Weeklylda.fit, Weekly<span class="fl">.0910</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklylda.pred<span class="sc">$</span>class, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Weeklylda.fit<span class="ot">&lt;-</span><span class="fu">lda</span>(Direction<span class="sc">~</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>Weeklylda.pred<span class="ot">&lt;-</span><span class="fu">predict</span>(Weeklylda.fit, Weekly<span class="fl">.0910</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklylda.pred<span class="sc">$</span>class, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Direction.0910
        Down Up
@@ -3464,7 +3465,7 @@ logWeekly.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklylda.pred<span class="sc">$</span>class<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklylda.pred<span class="sc">$</span>class<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.625</code></pre>
 </div>
@@ -3474,9 +3475,9 @@ logWeekly.pred Down Up
 <li></li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Weeklyqda.fit <span class="ot">=</span> <span class="fu">qda</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span> Weekly, <span class="at">subset =</span> train)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Weeklyqda.pred <span class="ot">=</span> <span class="fu">predict</span>(Weeklyqda.fit, Weekly<span class="fl">.0910</span>)<span class="sc">$</span>class</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklyqda.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Weeklyqda.fit <span class="ot">=</span> <span class="fu">qda</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span> Weekly, <span class="at">subset =</span> train)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Weeklyqda.pred <span class="ot">=</span> <span class="fu">predict</span>(Weeklyqda.fit, Weekly<span class="fl">.0910</span>)<span class="sc">$</span>class</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklyqda.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Direction.0910
 Weeklyqda.pred Down Up
@@ -3485,7 +3486,7 @@ Weeklyqda.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklyqda.pred<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklyqda.pred<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5865385</code></pre>
 </div>
@@ -3495,13 +3496,13 @@ Weeklyqda.pred Down Up
 <li></li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(class)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Week.train<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[train])</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>Week.test<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[<span class="sc">!</span>train])</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>train.Direction <span class="ot">=</span>Direction[train]</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>Weekknn.pred<span class="ot">=</span><span class="fu">knn</span>(Week.train,Week.test,train.Direction,<span class="at">k=</span><span class="dv">1</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weekknn.pred,Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(class)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Week.train<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[train])</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>Week.test<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[<span class="sc">!</span>train])</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>train.Direction <span class="ot">=</span>Direction[train]</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>Weekknn.pred<span class="ot">=</span><span class="fu">knn</span>(Week.train,Week.test,train.Direction,<span class="at">k=</span><span class="dv">1</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weekknn.pred,Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Direction.0910
 Weekknn.pred Down Up
@@ -3510,7 +3511,7 @@ Weekknn.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weekknn.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weekknn.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5</code></pre>
 </div>
@@ -3520,10 +3521,10 @@ Weekknn.pred Down Up
 <li></li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>WeeklyBayes.fit <span class="ot">=</span> <span class="fu">naiveBayes</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span> Weekly, <span class="at">subset =</span> train)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>WeeklyBayes.pred <span class="ot">=</span> <span class="fu">predict</span>(WeeklyBayes.fit, Weekly<span class="fl">.0910</span>)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WeeklyBayes.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>WeeklyBayes.fit <span class="ot">=</span> <span class="fu">naiveBayes</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span> Weekly, <span class="at">subset =</span> train)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>WeeklyBayes.pred <span class="ot">=</span> <span class="fu">predict</span>(WeeklyBayes.fit, Weekly<span class="fl">.0910</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WeeklyBayes.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                Direction.0910
 WeeklyBayes.pred Down Up
@@ -3532,7 +3533,7 @@ WeeklyBayes.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(WeeklyBayes.pred<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(WeeklyBayes.pred<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5865385</code></pre>
 </div>
@@ -3545,12 +3546,12 @@ WeeklyBayes.pred Down Up
 <section id="bonus-question-isl-exercise-4.8.13-part-j-30pts" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="bonus-question-isl-exercise-4.8.13-part-j-30pts"><span class="header-section-number">5</span> Bonus question: ISL Exercise 4.8.13 Part (j) (30pts)</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Weekly.fit<span class="ot">&lt;-</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag2<span class="sc">:</span>Lag4<span class="sc">+</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>logWeekly.prob<span class="ot">=</span> <span class="fu">predict</span>(Weekly.fit, Weekly<span class="fl">.0910</span>, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>logWeekly.pred <span class="ot">=</span> <span class="fu">rep</span>(<span class="st">&quot;Down&quot;</span>, <span class="fu">length</span>(logWeekly.prob))</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>logWeekly.pred[logWeekly.prob <span class="sc">&gt;</span> <span class="fl">0.5</span>] <span class="ot">=</span> <span class="st">&quot;Up&quot;</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>Direction<span class="fl">.0910</span> <span class="ot">=</span> Direction[<span class="sc">!</span>train]</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(logWeekly.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Weekly.fit<span class="ot">&lt;-</span><span class="fu">glm</span>(Direction<span class="sc">~</span>Lag2<span class="sc">:</span>Lag4<span class="sc">+</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>logWeekly.prob<span class="ot">=</span> <span class="fu">predict</span>(Weekly.fit, Weekly<span class="fl">.0910</span>, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>logWeekly.pred <span class="ot">=</span> <span class="fu">rep</span>(<span class="st">&quot;Down&quot;</span>, <span class="fu">length</span>(logWeekly.prob))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>logWeekly.pred[logWeekly.prob <span class="sc">&gt;</span> <span class="fl">0.5</span>] <span class="ot">=</span> <span class="st">&quot;Up&quot;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>Direction<span class="fl">.0910</span> <span class="ot">=</span> Direction[<span class="sc">!</span>train]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(logWeekly.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Direction.0910
 logWeekly.pred Down Up
@@ -3559,15 +3560,15 @@ logWeekly.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(logWeekly.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(logWeekly.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5769231</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Weeklylda.fit<span class="ot">&lt;-</span><span class="fu">lda</span>(Direction<span class="sc">~</span>Lag2<span class="sc">:</span>Lag4<span class="sc">+</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>Weeklylda.pred<span class="ot">&lt;-</span><span class="fu">predict</span>(Weeklylda.fit, Weekly<span class="fl">.0910</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklylda.pred<span class="sc">$</span>class, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Weeklylda.fit<span class="ot">&lt;-</span><span class="fu">lda</span>(Direction<span class="sc">~</span>Lag2<span class="sc">:</span>Lag4<span class="sc">+</span>Lag2, <span class="at">data=</span>Weekly,<span class="at">family=</span>binomial, <span class="at">subset=</span>train)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Weeklylda.pred<span class="ot">&lt;-</span><span class="fu">predict</span>(Weeklylda.fit, Weekly<span class="fl">.0910</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklylda.pred<span class="sc">$</span>class, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Direction.0910
        Down Up
@@ -3576,15 +3577,15 @@ logWeekly.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklylda.pred<span class="sc">$</span>class<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklylda.pred<span class="sc">$</span>class<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5865385</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>Weeklyqda.fit <span class="ot">=</span> <span class="fu">qda</span>(Direction <span class="sc">~</span> <span class="fu">poly</span>(Lag2,<span class="dv">2</span>), <span class="at">data =</span> Weekly, <span class="at">subset =</span> train)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>Weeklyqda.pred <span class="ot">=</span> <span class="fu">predict</span>(Weeklyqda.fit, Weekly<span class="fl">.0910</span>)<span class="sc">$</span>class</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklyqda.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Weeklyqda.fit <span class="ot">=</span> <span class="fu">qda</span>(Direction <span class="sc">~</span> <span class="fu">poly</span>(Lag2,<span class="dv">2</span>), <span class="at">data =</span> Weekly, <span class="at">subset =</span> train)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>Weeklyqda.pred <span class="ot">=</span> <span class="fu">predict</span>(Weeklyqda.fit, Weekly<span class="fl">.0910</span>)<span class="sc">$</span>class</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weeklyqda.pred, Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Direction.0910
 Weeklyqda.pred Down Up
@@ -3593,18 +3594,18 @@ Weeklyqda.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklyqda.pred<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weeklyqda.pred<span class="sc">==</span>Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.625</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>Week.train<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[train])</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>Week.test<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[<span class="sc">!</span>train])</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>train.Direction <span class="ot">=</span>Direction[train]</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>Weekknn.pred<span class="ot">=</span><span class="fu">knn</span>(Week.train,Week.test,train.Direction,<span class="at">k=</span><span class="dv">10</span>)</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weekknn.pred,Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>Week.train<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[train])</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>Week.test<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[<span class="sc">!</span>train])</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>train.Direction <span class="ot">=</span>Direction[train]</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>Weekknn.pred<span class="ot">=</span><span class="fu">knn</span>(Week.train,Week.test,train.Direction,<span class="at">k=</span><span class="dv">10</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weekknn.pred,Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Direction.0910
 Weekknn.pred Down Up
@@ -3613,18 +3614,18 @@ Weekknn.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weekknn.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weekknn.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5480769</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>Week.train<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[train])</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>Week.test<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[<span class="sc">!</span>train])</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>train.Direction <span class="ot">=</span>Direction[train]</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>Weekknn.pred<span class="ot">=</span><span class="fu">knn</span>(Week.train,Week.test,train.Direction,<span class="at">k=</span><span class="dv">100</span>)</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weekknn.pred,Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>Week.train<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[train])</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>Week.test<span class="ot">=</span><span class="fu">as.matrix</span>(Lag2[<span class="sc">!</span>train])</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>train.Direction <span class="ot">=</span>Direction[train]</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>Weekknn.pred<span class="ot">=</span><span class="fu">knn</span>(Week.train,Week.test,train.Direction,<span class="at">k=</span><span class="dv">100</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Weekknn.pred,Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Direction.0910
 Weekknn.pred Down Up
@@ -3633,7 +3634,7 @@ Weekknn.pred Down Up
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weekknn.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Weekknn.pred <span class="sc">==</span> Direction<span class="fl">.0910</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5769231</code></pre>
 </div>
