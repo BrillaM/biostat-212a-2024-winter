@@ -1,8 +1,7 @@
-```         
----
+   ---
 title: "Biostat 212A Homework 3"
 subtitle: "Due Feb 20, 2024 @ 11:59PM"
-author: "YOUR NAME and UID"
+author: "Brilla Meng UID: 806329681"
 date: today
 format:
   html:
@@ -24,12 +23,156 @@ knitr:
 ---
 
 ## ISL Exercise 5.4.2 (10pts)
+a.
+**answer:** The probability that the /th observation is in the test set is $1/n$. The probability that it is not in the test set is $1-1/n$. 
+
+b.
+**answer:** The probability that the /th observation is the second bootstrap sample. The probability that the /th is not the second bootstrap sample is 1-1/n.
+
+c.
+**answer:** As we use sampling with replacement to generate the bootstrap sample, the selection probability are independent, the probability(Observation J is not the first bootstrap observation, not the second, not the nth)= Probablity (Observation J is not the first bootstrap observation) * Probablity (Observation J is not the second bootstrap observation) * ... * Probablity (Observation J is not the nth bootstrap observation) = (1-1/n)^n
+
+d.
+**answer:** for n=5, 1-(1-1/n)^n = 1-(1-1/5)^5 = 0.67232
+
+e.
+**answer:** for n=100, 1-(1-1/n)^n = 1-(1-1/100)^100 = 0.63397
+
+f.
+**answer:** for n=10000, 1-(1-1/n)^n = 1-(1-1/10000)^10000 = 0.63214
+
+g.
+
+```{r}
+n <- 1:100000
+y <- 1 - (1 - 1/n)^n
+plot(n, y, type = "l", log = "x", xlab = "n", ylab = "1 - (1 - 1/n)^n")
+abline(h = 1 - exp(-1), lty = "dotted")
+```
+
+**answer:**
+The limit of (1-1/n)^n as n goes to infiinity is exp(-1), as n gets larger, the limit of (1-1/n)^n is getting closer to exp(-1), which is approximately 0.6321.
+
+h.
+
+```{r}
+store <- rep(NA, 10000) 
+for(i in 1:10000){
+  store[i] <- sum(sample(1:100, rep=TRUE) == 4) > 0 
+  }
+mean(store)
+```
+
+**answer:** The probability that the 4th observation is in the bootstrap sample is 0.6396, which is close to the limit of (1-1/n)^n as n goes to infiinity, which is exp(-1), approximately 0.6321.
 
 ## ISL Exercise 5.4.9 (20pts)
+
+```{r}
+library(MASS)
+library(ISLR2)
+library(boot)
+```
+
+a.
+
+```{r}
+mu.hat <- mean(Boston$medv)
+mu.hat
+```
+
+**answer:** The estimate μˆ is 22.53281.
+
+b.
+
+```{r}
+SE = sd(Boston$medv)/sqrt(nrow(Boston))
+SE
+```
+
+**answer:** The standard error  is 0.4088611. This is very small, we can interpret that the sample mean is very close to the true population mean.
+
+c.
+
+```{r}
+set.seed(1)
+boot.fn = function(data, index) {
+  mu <- mean(data[index])
+  return (mu)
+}
+SE_boot = boot(Boston$medv, boot.fn, R=1000)
+SE_boot
+```
+
+**answer:** The bootstrap estimate for the standard error of μˆ is 0.4106622,
+where the standard error of the mean is 0.4088611.  The bootstrap estimate is very close to the standard error of the mean.
+
+d.
+
+```{r}
+mu.hat_boot = SE_boot$t0
+SE_boot = sd(SE_boot$t)
+CI <- c(mu.hat_boot - 2*SE_boot, mu.hat_boot + 2*SE_boot)
+CI
+```
+```{r}
+t.test(Boston$medv)$conf.int
+```
+
+**answer:** The 95% confidence interval for μˆ is (21.72953, 23.33608), where the 95% confidence interval for the mean is (21.71148, 23.35413). The bootstrap estimate is very close to the t.test estimate.
+
+e.
+
+```{r}
+median.hat <- median(Boston$medv)
+median.hat
+```
+
+**answer:** The estimate for the median is 21.2.
+
+f.
+
+```{r}
+set.seed(1)
+boot.fn = function(data, index) {
+  median <- median(data[index])
+  return (median)
+}
+SE_boot_median= boot(Boston$medv, boot.fn, R=1000)
+SE_boot_median
+```
+
+**answer:** The bootstrap estimate for the standard error of the median is 0.3778075.
+
+g.
+
+```{r}
+mu.hat.0.1 = quantile(Boston$medv, 0.1)
+mu.hat.0.1
+```
+
+**answer:** The estimate for the 10th percentile is 12.75.
+
+h.
+
+```{r}
+set.seed(1)
+boot.fn = function(data, index) {
+  mu.0.1 <- quantile(data[index], 0.1)
+  return (mu.0.1)
+}
+se_boot_quant = boot(Boston$medv, boot.fn, R=1000)
+se_boot_quant
+```
+
+**answer:** The bootstrap estimate for the standard error of the 10th percentile is 0.4767526.
 
 ## Least squares is MLE (10pts)
 
 Show that in the case of linear model with Gaussian errors, maximum likelihood and least squares are the same thing, and $C_p$ and AIC are equivalent.
+$$
+C_p = \frac{1}{n} (RSS + 2d\hat{\sigma}^2) /n
+AIC =-2logL+2d
+$$
 
 ## ISL Exercise 6.6.1 (10pts)
 
