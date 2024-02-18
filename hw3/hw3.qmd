@@ -188,7 +188,6 @@ b.
 
 
 c.
-
 i.
 **answer:** True, the model with (k+1) predictors is obtained by augmenting the predictors in the model with k predictors that have the addtional predictor.
 
@@ -207,19 +206,19 @@ v.
 ## ISL Exercise 6.6.3 (10pts)
 
 a.
-**answer:**
+**answer:** decrease, as increase s from 0, we are restricting the βj coefficients less and less. The model is becoming more flexible, and the training RSS will decrease.
 
 b.
-**answer:**
+**answer:** decrease first, then increase like U shape. As we increase s from 0, we are restricting the βj coefficients less and less. The model is becoming more flexible, and the test RSS will decrease. However, after a certain point, the model will become too flexible and will overfit the training data, so the test RSS will begin to increase.
 
 c.
-**answer:**
+**answer:** increase. As we increase s from 0, we are restricting the βj coefficients less and less. so the model is becoming more and more flexible which provokes a steady increase in variance.
 
 d.
-**answer:**
+**answer:** decrease. As we increase s from 0, we are restricting the βj coefficients less and less. The model is becoming more flexible, and the bias will decrease.
 
 e.
-**answer:**
+**answer:** remain constant.By definition, the variance of the error term is constant, so the variance of the residuals will remain constant.
 
 
 
