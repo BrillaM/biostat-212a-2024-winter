@@ -170,13 +170,58 @@ se_boot_quant
 
 Show that in the case of linear model with Gaussian errors, maximum likelihood and least squares are the same thing, and $C_p$ and AIC are equivalent.
 $$
-C_p = \frac{1}{n} (RSS + 2d\hat{\sigma}^2) /n
+C_p = \frac{1}{n} (RSS + 2d\hat{\sigma}^2) \\
 AIC =-2logL+2d
 $$
+Where L is the maximized value of the likelihood function for the estimated model.
+First, we know that the likelihood function for the linear model with Gaussian errors is Y~N(μ1,σ21) and  /hat{Y} = Xβ. The likelihood function is
 
 ## ISL Exercise 6.6.1 (10pts)
 
+a.
+
+**answer:** Best subset selection has the smallest training RSS. Both forward and backward selection determine models that depend on which predictors they pick first as they repeat toward the k^th predictor. It means choose a wrong choice early can't be undone.
+
+b.
+
+**answer:** Best subset selection may have the smallest test RSS because it takes into account all possible models, but it may also have the largest test RSS because it may overfit the training data. Forward and backward selection may have a larger test RSS than best subset selection because they may not take into account all possible models, but they may also have a smaller test RSS than best subset selection because they may not overfit the training data.
+
+
+c.
+
+i.
+**answer:** True, the model with (k+1) predictors is obtained by augmenting the predictors in the model with k predictors that have the addtional predictor.
+
+ii.
+**answer:** True, the model with k predictors is obtained by removing one predictor from the model with (k+1) predictors.
+
+iii.
+**answer:** False. There is no direct link between the models obtained from forward and backward selection.
+
+iv.
+**answer:** False. There is no direct link between the models obtained from forward and backward selection.
+
+v.
+**answer:** False. The model with(k+1) predictors is obtained by selecting among all possible models with (k+1) predictors, does not necessarily contain all the predictors slected for the k-variable model.
+
 ## ISL Exercise 6.6.3 (10pts)
+
+a.
+**answer:**
+
+b.
+**answer:**
+
+c.
+**answer:**
+
+d.
+**answer:**
+
+e.
+**answer:**
+
+
 
 ## ISL Exercise 6.6.4 (10pts)
 
