@@ -169,12 +169,39 @@ se_boot_quant
 ## Least squares is MLE (10pts)
 
 Show that in the case of linear model with Gaussian errors, maximum likelihood and least squares are the same thing, and $C_p$ and AIC are equivalent.
+
 $$
-C_p = \frac{1}{n} (RSS + 2d\hat{\sigma}^2) \\
-AIC =-2logL+2d
+C_p = \frac{1}{n} ( RSS + 2d\hat{\sigma}^2 )
 $$
-Where L is the maximized value of the likelihood function for the estimated model.
-First, we know that the likelihood function for the linear model with Gaussian errors is Y~N(μ1,σ21) and  /hat{Y} = Xβ. The likelihood function is
+
+$$
+AIC = -2\log L + 2d
+$$
+Given the linear model with Gasussian errors which  $\epsilon \sim N(0, \sigma^2I)$, the likelihood function is
+$$
+L = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp(-\frac{1}{2\sigma^2} (\epsilon_i)^2 ) = (\frac{1}{(2\pi\sigma^2)^{n/2}}) \exp(-\frac{1}{2\sigma^2} \sum_{i=1}^{n} (y_i - \beta_0 - \beta_1 x_{i})^2)
+$$
+
+Maximizing the likelihood is equivalent to minimizing $\exp(-\frac{1}{2\sigma^2} \sum_{i=1}^{n} (\epsilon)^2)$ which is the least squares estimate.
+
+$$
+\frac{\partial}{\partial \beta_0} \sum_{i=1}^{n} (y_i - \beta_0 - \beta_1 x_{i})^2 = 0, \quad \frac{\partial}{\partial \beta_1} \sum_{i=1}^{n} (y_i - \beta_0 - \beta_1 x_{i})^2 = 0
+$$
+The solution is same as the lease squares estimate, which means MLE of $\beta_0+\beta_1$ is same as the LSE of $\beta_0+\beta_1$.
+We know that $C_p = \frac{1}{n} ( RSS + 2d\hat{\sigma}^2)$ and $AIC = -2\log L + 2d$ where L is the maximized likelihood. 
+$$
+\begin{align*}
+AIC = -2\log(L) + 2d \\
+= -2(-\frac{n}{2} \log(2\pi\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2) + 2d \\
+= n\log(2\pi\sigma^2) + \frac{1}{\sigma^2} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 + 2d \\
+= n\log(2\pi\sigma^2) + \frac{RSS}{\sigma^2} + 2d \\
+= n\log(2\pi) + n\log(\sigma^2) + \frac{RSS}{\sigma^2} + 2d \\
+= n\log(2\pi) + n\log(\frac{RSS}{n}) + n + 2d \\
+= n\log(2\pi \sigma^2) + \frac n {\sigma^2}C_p \\
+\end{align*}
+$$
+Since they differ by a constant which is only a function of constants $\sigma^2$ and n, it doesn't affect the model selection. Therefore, $C_p$ and AIC are equivalent.
+
 
 ## ISL Exercise 6.6.1 (10pts)
 
@@ -188,6 +215,7 @@ b.
 
 
 c.
+
 i.
 **answer:** True, the model with (k+1) predictors is obtained by augmenting the predictors in the model with k predictors that have the addtional predictor.
 
@@ -221,7 +249,7 @@ e.
 **answer:** Remain constant.By definition, the variance of the error term is constant, so the variance of the residuals will remain constant.
 
 
-`
+
 ## ISL Exercise 6.6.4 (10pts)
 
 a.
@@ -269,20 +297,28 @@ c.
 $$
 (y_1-\hat{\beta}_1x_1-\hat{\beta}_2x_1)^2+(y_2-\hat{\beta}_1x_2-\hat{\beta}_2x_2)^2+\lambda(|\hat{\beta}_1|+|\hat{\beta}_2|)
 $$
+
 d.
-**answer:**  
+**answer:** 
+
 $$
 (y_1-\hat{\beta}_1x_1-\hat{\beta}_2x_1)^2+(y_2-\hat{\beta}_1x_2-\hat{\beta}_2x_2)^2 
 $$
+
 subject to 
+
 $$
 |\hat{\beta}_1|+|\hat{\beta}_2| \leq s
 $$
-The lasso constraint is a diamond shape, and the ridge constraint is a circle and centered at the origin of the plane($\hat{\beta}_1,\hat{\beta}_2 $) which has distance s from the origin. By using the setting of this question,($x_{11}= x_{12} = x_1$ and $x_{21}= x_{22} = x_2$, x_1+x_2 =0 and y_1+y_2=0). we can get 
+
+The lasso constraint is a diamond shape, and the ridge constraint is a circle and centered at the origin of the plane$\hat{\beta}_1,\hat{\beta}_2$ which has distance s from the origin. By using the setting of this question,$x_{11}= x_{12} = x_1$ and $x_{21}= x_{22} = x_2$, $x_1+x_2 =0$ and $y_1+y_2=0$. we can get 
+
 $$
 2[y_1-(\hat{\beta}_1+\hat{\beta}_2)x_1]^2 \geq 0
 $$
-The line parallel to the edge of the diamond of the constraints. Now, solutions to the lasso optimization problem are contours of the function $ [y_1-(\hat{\beta}_1+\hat{beta}_2)x_1]^2 $ that intersects the diamond of the constraints. The entire edge $\hat{\beta}_1+\hat{\beta}_2=s$ is a potential solution. The lasso optimization problem has a solutions:
+
+The line parallel to the edge of the diamond of the constraints. Now, solutions to the lasso optimization problem are contours of the function $ y_1-(\hat{\beta}_1+\hat{beta}_2)x_1)^2 $ that intersects the diamond of the constraints. The entire edge $\hat{\beta}_1+\hat{\beta}_2=s$ is a potential solution. The lasso optimization problem has a solutions:
+
 $$
 \{ (\hat{\beta}_1, \hat{\beta}_2) : \hat{\beta}_1 + \hat{\beta}_2 = s \text{ with } \hat{\beta}_1, \hat{\beta}_2 \geq 0 \text{ and } \hat{\beta}_1 + \hat{\beta}_2 = -s \text{ with } \hat{\beta}_1, \hat{\beta}_2 \leq 0 \}.
 $$
@@ -290,18 +326,224 @@ $$
 ## ISL Exercise 6.6.11 (30pts)
 
 
+```{r}
+library(glmnet)
+library(MASS)
+library(ISLR2)
+library(tidyverse)
+library(tidymodels)
+library(GGally)
+data("Boston")
+head(Boston)
+```
+```{r}
+Boston <- Boston %>%
+  drop_na()
+dim(Boston)
+```
+```{r}
+set.seed(425)
+data_split = initial_split(
+  Boston,
+  prop = 0.75,
+  strata = "crim"
+)
+
+Boston_other <- training(data_split)
+dim(Boston_other)
+Boston_test <- testing(data_split)
+dim(Boston_test)
+```
+```{r}
+norm_recipe <- 
+  recipe(
+    crim ~ ., 
+    data = Boston_other
+  ) %>%
+  # create traditional dummy variables
+  step_dummy(all_nominal()) %>%
+  # zero-variance filter
+  step_zv(all_predictors()) %>% 
+  # center and scale numeric data
+  step_normalize(all_predictors())
+```
+```{r}
+ls_mod <- 
+  linear_reg() %>% 
+  set_engine("lm")
+
+lasso_mod <- 
+  # mixture = 0 (ridge), mixture = 1 (lasso)
+  linear_reg(penalty = tune(), mixture = 1.0) %>% 
+  set_engine("glmnet")
+
+ridge_mod <- 
+  linear_reg(penalty = tune(), mixture = 0.0) %>% 
+  set_engine("glmnet")
+```
+```{r}
+ls_workflow <- 
+  workflow() %>%
+  add_recipe(norm_recipe) %>%
+  add_model(ls_mod) 
+
+lasso_workflow <- 
+  workflow() %>%
+  add_model(lasso_mod) %>%
+  add_recipe(norm_recipe)
+
+ridge_workflow <- 
+  workflow() %>%
+  add_model(ridge_mod) %>%
+  add_recipe(norm_recipe)
+
+lambda_grid <-
+  grid_regular(penalty(range = c(-2, 3), trans = log10_trans()), levels = 100)
+lambda_grid
+```
+```{r}
+folds <- vfold_cv(Boston_other, v = 10)
+folds
+```
+```{r}
+ls_fit <- 
+  ls_workflow %>%
+  fit(data = Boston_other)
+predicted_values <- 
+  predict(ls_fit, Boston_other) %>% pull(.pred)
+
+ls_cv_rmse <- 
+  sqrt(mean((Boston_other$crim - predicted_values)^2))
+
+lasso_fit<-
+  lasso_workflow %>%
+  tune_grid(resamples = folds, grid = lambda_grid)
+
+ridge_fit<-
+  ridge_workflow %>%
+  tune_grid(resamples = folds, grid = lambda_grid)
+
+lasso_fit %>%
+  collect_metrics() %>%
+  print(width = Inf) %>%
+  filter(.metric == "rmse") %>%
+  ggplot(mapping = aes(x = penalty, y = mean)) + 
+  geom_point() + 
+  geom_line() + 
+  labs(x = "Penalty", y = "CV RMSE") + 
+  scale_x_log10(labels = scales::label_number())
+```
+```{r}
+lassotibble <- lasso_fit %>%
+  show_best("rmse")
+
+lasso_cv_rmse <- lassotibble[[1,4]]
+
+best_lasso <- lasso_fit %>%
+  select_best("rmse")
+best_lasso
+```
+```{r}
+ridge_fit %>%
+  collect_metrics() %>%
+  print(width = Inf) %>%
+  filter(.metric == "rmse") %>%
+  ggplot(mapping = aes(x = penalty, y = mean)) + 
+  geom_point() + 
+  geom_line() + 
+  labs(x = "Penalty", y = "CV RMSE") + 
+  scale_x_log10(labels = scales::label_number())
+```
+```{r}
+ridgetibble <- ridge_fit %>%
+  show_best("rmse")
+
+ridge_cv_rmse <- ridgetibble[[1,4]]
+
+best_ridge <- ridge_fit %>%
+  select_best("rmse")
+best_ridge
+```
+ 
+b.
+
+```{r}
+final_lasso <- lasso_workflow %>%
+  finalize_workflow(best_lasso)
+
+final_ridge <- ridge_workflow %>%
+  finalize_workflow(best_ridge)
+
+final_lasso_fit <- 
+  final_lasso %>%
+  last_fit(data_split)
+
+final_ridge_fit <-
+  final_ridge %>%
+  last_fit(data_split)
+
+final_ls_fit <-
+  ls_workflow %>%
+  last_fit(data_split)
+
+final_lasso_tibble <- 
+  final_lasso_fit %>%
+  collect_metrics() 
+  
+final_ridge_tibble <- 
+  final_ridge_fit %>%
+  collect_metrics() 
+
+final_ls_tibble <- 
+  final_ls_fit %>%
+  collect_metrics() 
+
+ls_test_rmse <- 
+  final_ls_tibble [[1,3]]
+lasso_test_rmse <-
+  final_lasso_tibble [[1,3]]
+ridge_test_rmse <-
+  final_ridge_tibble [[1,3]]
+```
+
+
 You must follow the [typical machine learning paradigm](https://ucla-biostat-212a.github.io/2024winter/slides/06-modelselection/workflow_lasso.html) to compare _at least_ 3 methods: least squares, lasso, and ridge. Report final results as
 
+```{r}
+rmse_results <- data.frame(
+  Method = c("LS", "Ridge", "Lasso"),
+  `CV RMSE` = c(ls_cv_rmse, ridge_cv_rmse, lasso_cv_rmse),
+  `Test RMSE` = c(ls_test_rmse, ridge_test_rmse, lasso_test_rmse)
+)
+rmse_results
+```
 | Method | CV RMSE | Test RMSE |
 |:------:|:------:|:------:|:------:|
-| LS | | | |
-| Ridge | | | |
-| Lasso | | | |
+| LS |5.590479 | 8.375181| |
+| Ridge |4.957944 |8.448881 | |
+| Lasso |4.966202 |8.441008 | |
 | ... | | | |
+
+**answer**: The Lasso model has the cross-validation RMSE of 4.966202. The Ridge model has a best cross-
+validation RMSE of 4.957944 The least squares model has a cross-validation RMSE of 5.590479. The Ridge model has the lowest cross-validation RMSE, so it is the best
+model.
+
+c.
+**answer**: Lasso model doesn't involve all futures in the data set. It uses a penalty to shrink the coefficients of some features to zero. It does not involve any penalty.
 
 ## Bonus question (20pts)
 
 Consider a linear regression, fit by least squares to a set of training data $(x_1, y_1), \ldots, (x_N,  y_N)$ drawn at random from a population. Let $\hat \beta$ be the least squares estimate. Suppose we have some test data $(\tilde{x}_1, \tilde{y}_1), \ldots, (\tilde{x}_M, \tilde{y}_M)$ drawn at random from the same population as the training data. If $R_{\text{train}}(\beta) = \frac{1}{N} \sum_{i=1}^N (y_i - \beta^T x_i)^2$ and $R_{\text{test}}(\beta) = \frac{1}{M} \sum_{i=1}^M (\tilde{y}_i - \beta^T \tilde{x}_i)^2$. Show that
 $$
 \operatorname{E}[R_{\text{train}}(\hat{\beta})] < \operatorname{E}[R_{\text{test}}(\hat{\beta})].
-```
+$$
+**answer**: To show that $\operatorname{E}[R_{\text{train}}(\hat{\beta})] < \operatorname{E}[R_{\text{test}}(\hat{\beta})].$, we can use the following steps:
+$$
+E[R_{\text{train}}(\hat{\beta})] = \frac{1}{N} \sum_{i=1}^N E[(y_i - \beta^T x_i)^2] = \frac{1}{N} \sum_{i=1}^N E[(y_i - E[y_i] + E[y_i] - \beta^T x_i)^2]
+$$
+also we have 
+$$
+E[R_{\text{test}}(\hat{\beta})] = \frac{1}{M} \sum_{i=1}^M E[(y_i - \beta^T x_i)^2] = \frac{1}{M} \sum_{i=1}^M E[(y_i - E[y_i] + E[y_i] - \beta^T x_i)^2]
+$$
+which means that $E[R_{\text{train}}(\hat{\beta})]$ is equal to $E[R_{\text{test}}(\hat{\beta})]$ and we know that $E[R_{\text{train}}(\hat{\beta})] is the least squares estimate which means that $E[R_{\text{train}}(\hat{\beta})] < E[R_{\text{test}}(\hat{\beta})]$. Therefore, we can conclude that $\operatorname{E}[R_{\text{train}}(\hat{\beta})] < \operatorname{E}[R_{\text{test}}(\hat{\beta})].$
+Therefore, we have shown that $\operatorname{E}[R_{\text{train}}(\hat{\beta})] < \operatorname{E}[R_{\text{test}}(\hat{\beta})].$ Proof is complete. 
